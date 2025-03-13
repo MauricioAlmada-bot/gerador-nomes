@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Gerador de Nomes de Bebês</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f9f9f9;
+      color: #333;
+      text-align: center;
+      padding: 20px;
+    }
+    h1 {
+      color: #ff6f61;
+    }
+    .container {
+      max-width: 600px;
+      margin: 0 auto;
+      background-color: #fff;
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    }
+    .filters {
+      margin-bottom: 20px;
+    }
+    .filters label {
+      display: block;
+      margin: 10px 0 5px;
+      font-weight: bold;
+    }
+    .filters select, .filters input {
+      width: 100%;
+      padding: 10px;
+      margin-bottom: 10px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+    }
+    button {
+      background-color: #ff6f61;
+      color: #fff;
+      border: none;
+      padding: 10px 20px;
+      font-size: 16px;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+    button:hover {
+      background-color: #ff4a3d;
+    }
+    .result {
+      margin-top: 20px;
+      font-size: 20px;
+      font-weight: bold;
+    }
+    .result span {
+      color: #ff6f61;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Gerador de Nomes de Bebês</h1>
+    <p>Encontre o nome perfeito para o seu bebê!</p>
+
+    <!-- Filtros -->
+    <div class="filters">
+      <label for="gender">Gênero:</label>
+      <select id="gender">
+        <option value="all">Todos</option>
+        <option value="male">Masculino</option>
+        <option value="female">Feminino</option>
+        <option value="neutral">Neutro</option>
+      </select>
+
+      <label for="origin">Origem:</label>
+      <select id="origin">
+        <option value="all">Todas</option>
+        <option value="latin">Latim</option>
+        <option value="greek">Grego</option>
+        <option value="hebrew">Hebraico</option>
+        <option value="celtic">Celta</option>
+      </select>
+
+      <label for="syllables">Número de Sílabas:</label>
+      <input type="number" id="syllables" min="1" max="5" placeholder="Ex: 2">
+    </div>
+
+    <!-- Botão de Gerar Nome -->
+    <button onclick="generateName()">Gerar Nome</button>
+
+    <!-- Resultado -->
+    <div class="result">
+      <p>Nome gerado: <span id="generatedName">-</span></p>
+      <p>Significado: <span id="meaning">-</span></p>
+      <p>Origem: <span id="nameOrigin">-</span></p>
+    </div>
+  </div>
+
+  <script>
+    // Lista de nomes (exemplo)
+    const names = [
+      { name: "Alice", gender: "female", origin: "greek", meaning: "Verdade, nobreza", syllables: 2 },
+      { name: "Miguel", gender: "male", origin: "hebrew", meaning: "Quem é como Deus?", syllables: 2 },
+      { name: "Laura", gender: "female", origin: "latin", meaning: "Loureiro, vitória", syllables: 2 },
+      { name: "Davi", gender: "male", origin: "hebrew", meaning: "Amado", syllables: 2 },
+      { name: "Sophia", gender: "female", origin: "greek", meaning: "Sabedoria", syllables: 3 },
+      { name: "Arthur", gender: "male", origin: "celtic", meaning: "Urso nobre", syllables: 2 },
+    ];
+
+    // Função para gerar nome
+    function generateName() {
+      const gender = document.getElementById("gender").value;
+      const origin = document.getElementById("origin").value;
+      const syllables = parseInt(document.getElementById("syllables").value);
+
+      // Filtrar nomes com base nos critérios
+      let filteredNames = names.filter(item => {
+        return (gender === "all" || item.gender === gender) &&
+               (origin === "all" || item.origin === origin) &&
+               (isNaN(syllables) || item.syllables === syllables);
+      });
+
+      // Selecionar um nome aleatório
+      if (filteredNames.length > 0) {
+        const randomIndex = Math.floor(Math.random() * filteredNames.length);
+        const selectedName = filteredNames[randomIndex];
+
+        // Exibir o resultado
+        document.getElementById("generatedName").textContent = selectedName.name;
+        document.getElementById("meaning").textContent = selectedName.meaning;
+        document.getElementById("nameOrigin").textContent = selectedName.origin;
+      } else {
+        alert("Nenhum nome encontrado com os filtros selecionados. Tente novamente!");
+      }
+    }
+  </script>
+</body>
+</html>
